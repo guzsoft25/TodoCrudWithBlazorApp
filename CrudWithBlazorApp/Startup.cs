@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using CrudWithBlazorApp.Data;
+using Microsoft.EntityFrameworkCore;
+using CrudWithBlazorApp.Services;
 
 namespace CrudWithBlazorApp
 {
@@ -25,9 +27,11 @@ namespace CrudWithBlazorApp
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<DatabaseDataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
+            services.AddSingleton<PersonService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
